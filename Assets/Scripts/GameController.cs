@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -12,13 +13,17 @@ public class GameController : MonoBehaviour {
     public Sprite btnClick;
     public Text txtPoint;
     private int gamePoint;
+    public List<Character> people = new List<Character>();
     AudioSource audio;
     // Use this for initialization
     void Start () {
-        Time.timeScale = 1;
-        pnlEndGame.SetActive(false);
-        audio = gameObject.GetComponent<AudioSource>();
-	}
+        //Time.timeScale = 1;
+        //pnlEndGame.SetActive(false);
+        //audio = gameObject.GetComponent<AudioSource>();
+
+        AddPeopleToList();
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -58,5 +63,10 @@ public class GameController : MonoBehaviour {
         audio.Play();
         Time.timeScale = 0;
         pnlEndGame.SetActive(true);
+    }
+    public void AddPeopleToList()
+    {
+        Character[] characters = FindObjectsOfType<Character>();
+        people.AddRange(characters);
     }
 }
