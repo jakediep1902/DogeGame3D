@@ -5,9 +5,14 @@ using UnityEngine;
 public class Cityzen : MonoBehaviour
 {
     public Transform target;
-    private Vector3 posDefaul;
+    public Transform posSpaw;
+    public GameObject item;
    // public Button btnTest;
     Animator anim;
+    private void Awake()
+    {
+        Invoke(nameof(SetActivePlayer), 2f);
+    }
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -16,22 +21,21 @@ public class Cityzen : MonoBehaviour
     }
     private void Update()
     {
-
-        //transform.position = posDefaul;
-
-    }
-    public void Throw()
-    {
-        transform.LookAt(target);
-        //anim.SetTrigger("Throw");
-    }
+    
+    }   
     public void Throwing()
     {
         Debug.Log("girl throwing");
-
+        GameObject tempObj = Instantiate(item, posSpaw.position, Quaternion.identity) as GameObject;
+        //tempObj.GetComponent<ItemController>().posTarget = target.position;
     }
     public void LookTarget()
     {
-        transform.LookAt(target);
+        transform.LookAt(target);      
     }
+   public void SetActivePlayer()
+    {
+        anim.SetTrigger("Throw");
+    }
+       
 }
