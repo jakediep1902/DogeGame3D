@@ -8,10 +8,12 @@ public class Character : MonoBehaviour
     public Joystick joyStick;
     public float moveSpeed = 5f;
     Rigidbody rg;
-    Vector3 moveDirection;  
+    Vector3 moveDirection;
+    Animator anim;
     private void Start()
     {
         rg = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
     }
     private void Update()
     {
@@ -20,7 +22,16 @@ public class Character : MonoBehaviour
         moveDirection = new Vector3(moveX, 0, moveY);
         moveDirection.Normalize();     
         Vector3 movement = moveDirection * moveSpeed * Time.deltaTime;  
-        transform.localPosition += movement;               
+        transform.localPosition += movement;  
+        
+        if(moveDirection.magnitude>0)
+        {
+            anim.SetFloat("Speed", 1f);
+        }
+        else
+        {
+            anim.SetFloat("Speed", 0f);
+        }
     }
     private void LateUpdate()
     {

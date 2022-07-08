@@ -22,7 +22,7 @@ public class GameController : MonoBehaviour {
         //audio = gameObject.GetComponent<AudioSource>();
 
         AddPeopleToList();
-
+        
     }
 	
 	// Update is called once per frame

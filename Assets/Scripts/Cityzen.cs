@@ -25,10 +25,17 @@ public class Cityzen : MonoBehaviour
     }   
     public void Throwing()
     {
-        Debug.Log("girl throwing");
+        //Debug.Log("girl throwing");
         GameObject tempObj = Instantiate(item, posSpaw.position, Quaternion.identity) as GameObject;
-        //tempObj.GetComponent<ItemController>().posTarget = target.position;
+        tempObj.GetComponent<ItemController>().MoveStraight();
+        Destroy(tempObj, 10f);
     }
+    public void ThrowParabola()
+    {
+        GameObject tempObj = Instantiate(item, posSpaw.position, Quaternion.identity) as GameObject;
+        tempObj.GetComponent<ItemController>().MoveParabola();
+    }
+
     public void LookTarget()
     {
         transform.LookAt(target);      
@@ -37,5 +44,6 @@ public class Cityzen : MonoBehaviour
     {
         anim.SetTrigger("Throw");
     }
+    
        
 }
