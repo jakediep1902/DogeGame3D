@@ -6,6 +6,7 @@ public class ItemController : MonoBehaviour
 {
     GameObject target;
     Rigidbody rg;
+   
     public float throwForce;
     public float animation;
     public float height;
@@ -13,14 +14,16 @@ public class ItemController : MonoBehaviour
     public float unknow;
     private void OnEnable()
     {
+        
         rg = GetComponent<Rigidbody>();
-        target = GameObject.FindGameObjectWithTag("Player");     
+        target = GameObject.FindGameObjectWithTag("Target");     
     }
     public void MoveStraight()
     {
         Vector3 force = target.transform.position - transform.position;
         force.Normalize();
         rg.AddForce(force * throwForce);
+       
     }
     public void MoveParabola()
     {

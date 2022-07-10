@@ -6,12 +6,22 @@ using UnityEngine.UI;
 public class Character : MonoBehaviour
 {
     public Joystick joyStick;
+    GameController gameController;
     public float moveSpeed = 5f;
+    public float score = 0f;
+
+    public Text txtScore;
+
     Rigidbody rg;
     Vector3 moveDirection;
     Animator anim;
+    AudioSource audioSource;
+    public AudioClip clipHurt;
+    public AudioClip clipOut;
     private void Start()
     {
+        gameController = GameController.Instance;
+        audioSource = GetComponent<AudioSource>();
         rg = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
     }
@@ -44,5 +54,38 @@ public class Character : MonoBehaviour
             transform.localRotation = Quaternion.LookRotation(moveDirection, Vector3.up);
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Food"))
+        {
+            PickFood();
+        }
+    }
+    
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle"))
+        {
+            GetHurt();
+        }
+    }
+    public void GetHurt()
+    {
+        audioSource.volume = 0.2f;
+        audioSource.PlayOneShot(clipHurt);    
+    }
+    public void PickFood()
+    {
+        audioSource.volume = 0.5f;
+        audioSource.Play();
+        score++;
+        txtScore.text = score.ToString();
+    }
+    public void MoveOut()
+    {
+        audioSource.PlayOneShot(clipOut);
+        gameController.EndGame();
+    }
+   
 
 }

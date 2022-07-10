@@ -6,17 +6,22 @@ public class Cityzen : MonoBehaviour
 {
     public Transform target;
     public Transform posSpaw;
+
     public GameObject item;
+    
+    AudioSource audioSource;
    // public Button btnTest;
     Animator anim;
     private void Awake()
     {
-        Invoke(nameof(SetActivePlayer), 2f);
+        //Invoke(nameof(SetActivePlayer), 2f);
     }
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
         //btnTest.onClick.AddListener(() => Throw());
+        SetActivePlayer();
 
     }
     private void Update()
@@ -26,9 +31,10 @@ public class Cityzen : MonoBehaviour
     public void Throwing()
     {
         //Debug.Log("girl throwing");
-        GameObject tempObj = Instantiate(item, posSpaw.position, Quaternion.identity) as GameObject;
+        GameObject tempObj = Instantiate(item, posSpaw.position, Quaternion.EulerRotation(30f,20f,100f)) as GameObject;
         tempObj.GetComponent<ItemController>().MoveStraight();
-        Destroy(tempObj, 10f);
+        audioSource.Play();
+        Destroy(tempObj, 5f);
     }
     public void ThrowParabola()
     {
@@ -44,6 +50,7 @@ public class Cityzen : MonoBehaviour
     {
         anim.SetTrigger("Throw");
     }
+   
     
        
 }
