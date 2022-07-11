@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour {
     public static GameController Instance;
     public BackGround backGround;
     public List<Cityzen> cityzens = new List<Cityzen>();
+    public List<HighscoreTemplate> listHighscore = new List<HighscoreTemplate>(4);
     public GameObject pnlEndGame;
     public Button btnRestart;
     public Sprite btnIdle;
@@ -18,6 +19,9 @@ public class GameController : MonoBehaviour {
     private int gamePoint;
     
     AudioSource audio;
+
+    public Text txtScore;
+    private int score = 0;
     // Use this for initialization
     private void Awake()
     {
@@ -102,6 +106,25 @@ public class GameController : MonoBehaviour {
             item.gameObject.SetActive(true);
             yield return new WaitForSeconds(10f);
             
+        }
+    }
+    public void SetScore()
+    {
+        score++;
+        txtScore.text = score.ToString();
+    }
+    public int GetScore()
+    {
+        return score;
+    }
+    public void SetHighScore(Highscore highscore)
+    {      
+        for (int i = highscore.GetPos(); i < listHighscore.Count; i++)
+        {
+            listHighscore[i].txtPos.text = highscore.GetPos().ToString();
+            listHighscore[i].txtScore.text = highscore.GetScore().ToString();
+            listHighscore[i].txtName.text = highscore.GetName();
+            break;
         }
     }
     //public void RestartGame(float delay =3f)

@@ -7,10 +7,9 @@ public class Character : MonoBehaviour
 {
     public Joystick joyStick;
     GameController gameController;
-    public float moveSpeed = 5f;
-    public float score = 0f;
+    public float moveSpeed = 5f;  
 
-    public Text txtScore;
+    
 
     Rigidbody rg;
     Vector3 moveDirection;
@@ -78,8 +77,7 @@ public class Character : MonoBehaviour
     {
         audioSource.volume = 0.5f;
         audioSource.Play();
-        score++;
-        txtScore.text = score.ToString();
+        gameController.SetScore();
     }
     public void MoveOut()
     {
