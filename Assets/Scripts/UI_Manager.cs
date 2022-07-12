@@ -4,22 +4,29 @@ using UnityEngine;
 using UnityEngine.UI;
 public class UI_Manager : MonoBehaviour
 {
-    private Vector3 posDefaul;
-    public Button btnTest;
+    public static UI_Manager Instance;
+    public Button btnSaveScore;
+    public Button btnUpdateScore;
+    public InputField inputName;
+    private void Awake()
+    {
+        if(Instance==null)
+        {
+            Instance = this;
+        }
+    }
     private void Start()
     {
-        btnTest.onClick.AddListener(() => Throw());
-        //anim = GetComponent<Animator>();
+        btnSaveScore.onClick.AddListener(() =>
+        {
+            btnSaveScore.gameObject.SetActive(false);
+            inputName.gameObject.SetActive(false);
+        });
+        btnUpdateScore.onClick.AddListener(() =>
+        {
+            btnUpdateScore.gameObject.SetActive(false);            
+        });
     }
-    private void Update()
-    {
-
-        //transform.position = posDefaul;
-
-    }
-    public void Throw()
-    {
-        //transform.LookAt(target);
-        //anim.SetTrigger("Throw");
-    }
+    
+       
 }

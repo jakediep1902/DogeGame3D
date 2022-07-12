@@ -9,13 +9,25 @@ using UnityEngine.UI;
 public class PlayfabManager : MonoBehaviour
 {
     GameController gameController;
+    public static PlayfabManager Instance;
     public Text txtName;
     public InputField inputName;
+    private void Awake()
+    {
+        if(Instance==null)
+        {
+            Instance = this;
+        }
+    }
     private void Start()
     {
         gameController = GameController.Instance;
     }
     public void UpdateScore()
+    {
+        Login();     
+    }
+    public void SaveScore()
     {
         Login();
     }
@@ -42,16 +54,9 @@ public class PlayfabManager : MonoBehaviour
 
     private void UpdateScoreSuccess(UpdatePlayerStatisticsResult obj)
     {
-        Debug.Log($"update success");
-        //Invoke(nameof(GetLeaderBoard),2f);
-        GetLeaderBoard();
-        //StartCoroutine(DelayGetLeaderboard());
-    }
-    IEnumerator DelayGetLeaderboard()
-    {
-        yield return new WaitForSeconds(2f);
-        GetLeaderBoard();
-    }
+        Debug.Log($"Save score success");       
+        //GetLeaderBoard();      
+    }   
     public void GetLeaderBoard()
     {
         var request = new GetLeaderboardRequest
@@ -70,7 +75,7 @@ public class PlayfabManager : MonoBehaviour
 
     private void OnLeaderboardGet(GetLeaderboardResult obj)
     {
-        Debug.Log($"Get Leaderboard Successful");
+        //Debug.Log($"Get Leaderboard Successful");
         SetHighscore(obj);
     }
     public void SetHighscore(GetLeaderboardResult result)
@@ -78,20 +83,31 @@ public class PlayfabManager : MonoBehaviour
         var info = result.Leaderboard;
         foreach (var item in info)
         {
-            Debug.Log($"Pos: {item.Position} : name: {item.DisplayName}  :  score: {item.StatValue}");
+            //Debug.Log($"Pos: {item.Position} : name: {item.DisplayName}  :  score: {item.StatValue}");
             Highscore highscore = new Highscore(item.Position, item.StatValue, item.DisplayName);
             gameController.SetHighScore(highscore);
         }
     }
     public void Login()
     {
-        var request = new LoginWithPlayFabRequest
+        if(inputName.text=="")
         {
-            Username = inputName.text,
-            Password = "123123",
-        };
-        PlayFabClientAPI.LoginWithPlayFab(request, OnLoginSuccess, OnLoginError);
-        
+            var request = new LoginWithPlayFabRequest
+            {
+                Username = "Unknow",
+                Password = "123123",
+            };
+            PlayFabClientAPI.LoginWithPlayFab(request, OnLoginSuccess, OnLoginError);
+        }
+        else
+        {
+            var request = new LoginWithPlayFabRequest
+            {
+                Username = inputName.text,
+                Password = "123123",
+            };
+            PlayFabClientAPI.LoginWithPlayFab(request, OnLoginSuccess, OnLoginError);
+        }      
     }
     public void Register()
     {
@@ -120,7 +136,7 @@ public class PlayfabManager : MonoBehaviour
 
     private void OnRegisted(RegisterPlayFabUserResult obj)
     {
-        Debug.Log("Registed");
+        //Debug.Log("Registed");
         SendLeaderboard(gameController.GetScore());
     }
 
@@ -132,7 +148,8 @@ public class PlayfabManager : MonoBehaviour
 
     private void OnLoginSuccess(LoginResult obj)
     {
-        Debug.Log($"Login success");
+        //Debug.Log($"Login success");
         SendLeaderboard(gameController.GetScore());
+        GetLeaderBoard();        
     }
 }

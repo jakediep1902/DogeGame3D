@@ -19,14 +19,16 @@ public class ItemReward : MonoBehaviour
     }
     void Start()
     {
-        Debug.Log("Instatiate");
+        //Debug.Log("Instatiate");
         pointPatrol = transform.position;
         pointPatrol.y += distance;
         transform.DOMove(pointPatrol, duration).SetEase(Ease.InOutSine).SetLoops(-1,LoopType.Yoyo);
         //transform.DOMove(new Vector3(0, 2, 0), duration).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
     }
-
-    
+    private void OnDisable()
+    {
+        transform.DOPause();
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))

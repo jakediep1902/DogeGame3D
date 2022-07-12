@@ -7,6 +7,9 @@ using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour {
 
     public static GameController Instance;
+
+    PlayfabManager playFabManager;
+
     public BackGround backGround;
     public List<Cityzen> cityzens = new List<Cityzen>();
     public List<HighscoreTemplate> listHighscore = new List<HighscoreTemplate>(4);
@@ -32,7 +35,9 @@ public class GameController : MonoBehaviour {
         AddCityzens();
         StartCoroutine(nameof(DelaySpawCityZenOnStart));
     }
-    void Start () {
+    void Start () 
+    {
+        playFabManager = PlayfabManager.Instance;
         Time.timeScale = 1;
         pnlEndGame.SetActive(false);
         //audio = gameObject.GetComponent<AudioSource>();
@@ -88,6 +93,7 @@ public class GameController : MonoBehaviour {
         Time.timeScale = 0;
         pnlEndGame.SetActive(true);
         backGround.SetMusic();
+        playFabManager.UpdateScore();
     }
     public void AddCityzens()
     {

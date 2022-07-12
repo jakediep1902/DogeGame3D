@@ -32,5 +32,5 @@ public class ItemController : MonoBehaviour
         //Debug.Log($"animation : {animation}");
         transform.position = MathParabola.Parabola(transform.position, target.transform.position, height, animation / unknow);
     }
-
+   
 }

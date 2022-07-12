@@ -7,16 +7,14 @@ public class Character : MonoBehaviour
 {
     public Joystick joyStick;
     GameController gameController;
-    public float moveSpeed = 5f;  
-
-    
-
+    public float moveSpeed = 5f;
     Rigidbody rg;
     Vector3 moveDirection;
     Animator anim;
     AudioSource audioSource;
-    public AudioClip clipHurt;
+    public AudioClip clipImpact;
     public AudioClip clipOut;
+    public AudioClip clipHurt;
     private void Start()
     {
         gameController = GameController.Instance;
@@ -45,7 +43,7 @@ public class Character : MonoBehaviour
     private void LateUpdate()
     {
         RotatePlayer();
-    }
+    } 
     public void RotatePlayer()
     {       
         if (moveDirection != Vector3.zero)
@@ -54,24 +52,29 @@ public class Character : MonoBehaviour
         }
     }
     private void OnTriggerEnter(Collider other)
-    {
+    {       
         if (other.gameObject.CompareTag("Food"))
         {
             PickFood();
         }
-    }
-    
+    }  
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             GetHurt();
+            if(collision.relativeVelocity.magnitude>16f)
+            {
+                //Debug.Log(collision.relativeVelocity.magnitude);
+                audioSource.volume = 0.7f;
+                audioSource.PlayOneShot(clipHurt);
+            }
         }
     }
     public void GetHurt()
     {
         audioSource.volume = 0.2f;
-        audioSource.PlayOneShot(clipHurt);    
+        audioSource.PlayOneShot(clipImpact);    
     }
     public void PickFood()
     {
@@ -84,6 +87,4 @@ public class Character : MonoBehaviour
         audioSource.PlayOneShot(clipOut);
         gameController.EndGame();
     }
-   
-
 }
