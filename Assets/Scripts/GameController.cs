@@ -23,6 +23,8 @@ public class GameController : MonoBehaviour {
     
     AudioSource audio;
 
+    public AudioClip clipBtn;
+
     public Text txtScore;
     private int score = 0;
     // Use this for initialization
@@ -37,6 +39,7 @@ public class GameController : MonoBehaviour {
     }
     void Start () 
     {
+        audio = GetComponent<AudioSource>();
         playFabManager = PlayfabManager.Instance;
         Time.timeScale = 1;
         pnlEndGame.SetActive(false);
@@ -74,12 +77,13 @@ public class GameController : MonoBehaviour {
     
     public void StartGame()
     {
-        
+        PlayAudioClip(clipBtn);
         SceneManager.LoadScene("Game");
 
     }
     public void QuitGame()
     {
+        PlayAudioClip(clipBtn);
         Application.Quit();
     }
     
@@ -132,6 +136,10 @@ public class GameController : MonoBehaviour {
             listHighscore[i].txtName.text = highscore.GetName();
             break;
         }
+    }
+    public void PlayAudioClip(AudioClip clip)
+    {
+        audio.PlayOneShot(clip);
     }
     //public void RestartGame(float delay =3f)
     //{
